@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chhath Puja Wishes Generator</title>
+    <style>/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+}
+
+.container {
+    text-align: center;
+    background-color: #ffffffcc;
+    padding: 20px 15px;
+    border-radius: 12px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+    max-width: 500px;
+    border: 2px solid #ffa726;
+    animation: fadeIn 1s ease;
+}
+
+/* Heading Styles */
+h1 {
+    color: #ff5722;
+    font-size: 2em;
+    font-weight: 700;
+    margin: 10px 0 15px;
+    text-shadow: 2px 2px 6px rgba(255, 87, 34, 0.3);
+}
+
+/* Input Styles */
+input[type="text"] {
+    width: 85%;
+    padding: 12px;
+    border: 2px solid #ffb74d;
+    border-radius: 6px;
+    margin: 10px 0;
+    font-size: 1em;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #ff5722;
+}
+
+/* Button Styles */
+button {
+    margin-top: 12px;
+    padding: 12px 25px;
+    background: #ff7043;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #e64a19;
+}
+
+button:active {
+    background: #d84315;
+}
+
+/* Greeting Card Styles */
+.greeting-card {
+    margin-top: 20px;
+    padding: 15px;
+    background: #fff3e0;
+    border: 1px solid #ffa726;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.greeting-card:hover {
+    transform: scale(1.02);
+}
+
+/* Card Image */
+.card-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ffb74d;
+}
+
+/* Card Content */
+.card-content {
+    padding: 15px 10px;
+}
+
+.shayari {
+    color: #333;
+    font-size: 1.2em;
+    font-style: italic;
+    margin: 12px 0;
+    line-height: 1.5;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#userName {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #ff5722;
+    margin-top: 8px;
+}
+
+/* Keyframes for Fade-In Animation */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+</style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Chhath Puja Ki Hardik Shubhkamnaye</h1>
+        <p>Apna naam aur image URL dale ya default image use kare!</p>
+
+        <!-- Name Input -->
+        <input type="text" id="nameInput" placeholder="Yaha apna naam dale" />
+
+        <!-- Image URL Input -->
+        <input type="text" id="imageURLInput" placeholder="Apna image URL dale (optional)" />
+
+        <button onclick="generateCard()">Shubhkamna Dekhe</button>
+
+        <!-- Greeting Card Preview -->
+        <div id="greetingCard" class="greeting-card hidden">
+            <img id="displayImage" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTACtFg99O6liZl8O-PfqDCTVqSSx4CFPHwnFMdqt5bxOIMphYDXfiEWEe&s=10" class="card-image" alt="Chhath Puja Image">
+            <div class="card-content">
+              <img src="" alt="">
+                <p id="randomShayari" class="shayari"></p>
+                <p id="userName"></p>
+            </div>
+            <button onclick="captureAndShare()">Download </button>
+        </div>
+    </div>
+    <script>
+// Shayaris in Hindi for Chhath Puja
+const shayaris = [
+    "Chhath Puja ke is paavan parv par aapke ghar me sukh, samriddhi aur shanti aaye!",
+    "Chhath Puja ki dheron shubhkamnayein! Jai Chhathi Maiya!",
+    "Chhath Puja ke is paavan mauke par aapke ghar me khushiyon ki bahar aaye!",
+    "Jai Chhathi Maiya! Aapke parivar par unka ashirwad bana rahe!",
+    "Chhath Puja ki dher sari badhaiyan! Jai Surya Dev!",
+    "Surya dev aur Chhathi Maiya ke ashirwad se aapka jeevan khushiyon se bhar jaye!",
+    "Chhath Puja par dheron mangalmay shubhkamnayein!",
+    "Aapke jeevan me sukh aur samriddhi aaye, yehi Chhath Puja ki shubhkamnayein hain.",
+    "Chhath ke paawan parv par aapka jeevan sukh aur samriddhi se bhar jaye!",
+    "Chhath Puja ke is pavitra parv par, Surya Dev ka ashirwad sada aapke saath rahe.",
+    "Jai Chhathi Maiya! Aapke ghar me khushiyon ki bahar aaye!",
+    "Aap aur aapka parivar sada sukh-shanti me rahe, yehi Chhath Puja ki shubhkamna hai.",
+    "Chhath ke paavan parv par, aapke ghar me khushiyon ka samriddhi aaye!",
+    "Jeevan me khushiyon ki bahar aur sukh samriddhi aaye, Jai Chhathi Maiya!",
+    "Aapka jeevan Chhathi Maiya ke ashirwad se roshan rahe!",
+    "Surya Dev aur Chhathi Maiya ka ashirwad sada aapke upar bane rahe.",
+    "Chhath ke is paavan parv par, aapke ghar me sukh samriddhi ka vaas ho.",
+    "Jai Chhathi Maiya! Sukh aur samriddhi aapke jeevan me bani rahe.",
+    "Chhath ke paavan parv par aapko dheron shubhkamnayein!",
+    "Chhathi Maiya ka ashirwad sada aapke saath rahe, yehi subhkamna hai!"
+];
+
+// Array of Default Image URLs for Chhath Puja
+const images = [
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTACtFg99O6liZl8O-PfqDCTVqSSx4CFPHwnFMdqt5bxOIMphYDXfiEWEe&s=10",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1h5-J06QKBmP_osr9kR4WCay2SW5VULm0Uw&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSfIpQC8iaXoDJsUe7_zso6uricJNWTcwM0g&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQclWuAUDtbdVmG1zzUuAQ_krM48udQ1uCqTQ&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqPvETyiIBFQ5UF7FkFCicxv6JIIgkSpeLeQ&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRswvTw2B0CA6LL2L1IdtfUMFLUfotdqlYSyw&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLgdZjJSULeiMs-jdHNwc9WVi6gIIhbbaKzgWDVn2ClA&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYXpZNi_rYhRDl7cAwaTavGfdqv-lran46WetR-yOo-w&s",
+    "",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-W38TurZPwvCtpVkLWIO1pQJ3e76REKmcGwMNaI66_Q&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0Akwn328PTbH4OYqXfjAqfBqvv5ajG5NEJA5A-K0ZoQ&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYy4o8Guw_4v6t1lDZLcEDwFofzhhczhPl56F7pezl8A&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWgCCBhW4Q2MMmA0ydy_xZ9pModqE0lBWvcL2XMxF6lg&s",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrIKCeeWGD3Y4i-dqIv_ik1LaCToewXrbjLw&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4qpoQe7BtXZXi5Y3DtUmJq9ojuma5SEa08w&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTvivlwYiO_3bJLy6SIU0eA78dZNAXxhgVEw&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSITl3gzng3Uoxk5-ijT2OuiNHFyOEk511egg&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxXNqVr44V3wbDK8lf_aI35RCRJfeOZ9xicQ&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsfvuGdBBODG5JxI1y6mqR2DQdZIIIed7mgg&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjgbuiWCt8Y7UyodXjREhnj8RlXzbiRAPnMw&usqp=CAU",
+    // Add more images as needed
+];
+
+function getRandomItem(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function generateCard() {
+    const name = document.getElementById("nameInput").value;
+    const userImageURL = document.getElementById("imageURLInput").value;
+    
+    if (name) {
+        const messageDiv = document.getElementById("greetingCard");
+        const shayari = getRandomItem(shayaris);
+        
+        // Use user's image URL if provided; otherwise, pick a random default image
+        const imageToDisplay = userImageURL ? userImageURL : getRandomItem(images);
+
+        document.getElementById("randomShayari").innerText = shayari;
+        document.getElementById("userName").innerText = `- ${name}`;
+        document.getElementById("displayImage").src = imageToDisplay;
+
+        messageDiv.classList.remove("hidden");
+    } else {
+        alert("Please enter your name.");
+    }
+}
+
+// Capture the card as an image and share on WhatsApp
+function captureAndShare() {
+    const greetingCard = document.getElementById("greetingCard");
+
+    // Hide the download button temporarily
+    const downloadButton = greetingCard.querySelector("button");
+    downloadButton.style.display = "none";
+
+    html2canvas(greetingCard, {
+        useCORS: true, // Enables CORS
+        proxy: "https://your-cors-proxy.com/" // Replace with a CORS-enabled proxy if needed
+    }).then((canvas) => {
+        const imageDataURL = canvas.toDataURL("image/png");
+
+        // Show the download button again after capturing
+        downloadButton.style.display = "block";
+
+        // Create a download link and trigger it
+        const downloadLink = document.createElement("a");
+        downloadLink.href = imageDataURL;
+        downloadLink.download = "Chhath_Puja_Wish-Hindustani-ji.png";
+        downloadLink.click();
+    });
+}
+
+    </script>
+</body>
+</html>
